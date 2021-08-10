@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ProjectX.Protobuf.Protos.Services";
+
+import "Protos/Models/UserCredentials.proto";
+import "google/protobuf/empty.proto";
+
+service UserAuthentication {
+  // Sends a greeting
+  rpc Login (LoginRequest) returns (LoginReply);
+  rpc Register (RegisterRequest) returns (RegisterReply);
+  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty);
+}

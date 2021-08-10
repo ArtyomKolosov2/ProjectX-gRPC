@@ -4,6 +4,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX", "ProjectX\Projec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Protobuf", "ProjectX.Protobuf\ProjectX.Protobuf.csproj", "{F71AC752-3DA0-4D98-AA0A-BB754F741E17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.DataAccess", "ProjectX.DataAccess\ProjectX.DataAccess.csproj", "{F5CA3945-4BA3-4667-BAAA-6E6A14AC03E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.BusinessLayer", "ProjectX.BusinessLayer\ProjectX.BusinessLayer.csproj", "{779182E3-D38B-4A4B-BC0E-F7CBEE0BB7B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.ConsoleClient", "ProjectX.ConsoleClient\ProjectX.ConsoleClient.csproj", "{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{F71AC752-3DA0-4D98-AA0A-BB754F741E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F71AC752-3DA0-4D98-AA0A-BB754F741E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F71AC752-3DA0-4D98-AA0A-BB754F741E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5CA3945-4BA3-4667-BAAA-6E6A14AC03E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5CA3945-4BA3-4667-BAAA-6E6A14AC03E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5CA3945-4BA3-4667-BAAA-6E6A14AC03E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5CA3945-4BA3-4667-BAAA-6E6A14AC03E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779182E3-D38B-4A4B-BC0E-F7CBEE0BB7B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779182E3-D38B-4A4B-BC0E-F7CBEE0BB7B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779182E3-D38B-4A4B-BC0E-F7CBEE0BB7B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779182E3-D38B-4A4B-BC0E-F7CBEE0BB7B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
