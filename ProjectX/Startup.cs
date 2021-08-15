@@ -1,19 +1,22 @@
 using System;
+using System.Text;
 using AspNetCore.Identity.Mongo;
 using Calzolari.Grpc.AspNetCore.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using ProjectX.BusinessLayer.GrpcServices;
-using ProjectX.BusinessLayer.Services;
+using ProjectX.BusinessLayer.Services.DI;
 using ProjectX.DataAccess.Context.DI;
 using ProjectX.DataAccess.Models;
 using ProjectX.DataAccess.Models.Base;
+using ProjectX.DataAccess.Models.Identity;
 using ProjectX.DataAccess.Repositories.DI;
 
 namespace ProjectX
@@ -39,15 +42,16 @@ namespace ProjectX
             services.AddGrpc(options =>
             {
                 options.EnableMessageValidation();
+                options.EnableDetailedErrors = true;
             });
 
             services.AddGrpcValidation();
 
-            services.AddIdentityMongoDbProvider<User, Role>(identityOptions =>
+            services.AddIdentityMongoDbProvider<User, Role, ObjectId>(identityOptions =>
             {
                 identityOptions.Password.RequiredLength = 6;
-                identityOptions.Password.RequireLowercase = true;
-                identityOptions.Password.RequireUppercase = true;
+                identityOptions.Password.RequireLowercase = false;
+                identityOptions.Password.RequireUppercase = false;
                 identityOptions.Password.RequireNonAlphanumeric = false;
                 identityOptions.Password.RequireDigit = true;
                 
@@ -58,32 +62,39 @@ namespace ProjectX
                 identityOptions.User.AllowedUserNameCharacters =
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 identityOptions.User.RequireUniqueEmail = true;
-            }, mongoIdentityOptions => 
+            }, mongoIdentityOptions =>
             {
-                mongoIdentityOptions.ConnectionString = databaseSettings.ConnectionString;
-                // mongoIdentityOptions.UsersCollection = "Custom User Collection Name, Default User";
-                // mongoIdentityOptions.RolesCollection = "Custom Role Collection Name, Default Role";
-            }).AddDefaultTokenProviders(); 
-
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.SlidingExpiration = true;
+                mongoIdentityOptions.ConnectionString =
+                    $"{databaseSettings.ConnectionString}/{databaseSettings.DatabaseName}";
             });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(o => {
-                    var validator = new JwtTokenValidatorService(Configuration);
-                    o.SecurityTokenValidators.Add(validator); 
+
+            services.AddBusinessServices();
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtTokenKey"])),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
                 });
+            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
+                {
+                    o.SaveToken = true;
+                });*/
             
             services.AddAuthorization();
             services.AddRepositories();
-            
+
 
             /*services.AddTransient<AuthHeadersInterceptor>();
             services.AddHttpContextAccessor();

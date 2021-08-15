@@ -8,7 +8,7 @@ namespace ProjectX.DataAccess.Context.DI
     {
         public static void AddMongoDbContext(this IServiceCollection services, IDatabaseSettings settings)
         {
-            services.AddScoped<IMongoContext, MongoDbContext>(
+            services.AddSingleton<IMongoContext, MongoDbContext>(
                 _ => new MongoDbContext(settings));
         }
     }

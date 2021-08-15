@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ProjectX.Core\ProjectX.Core.csproj" />
       <ProjectReference Include="..\ProjectX.DataAccess\ProjectX.DataAccess.csproj" />
       <ProjectReference Include="..\ProjectX.Protobuf\ProjectX.Protobuf.csproj" />
     </ItemGroup>
@@ -19,6 +20,12 @@
       <PackageReference Include="AutoMapper" Version="10.1.1" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Authorization, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\5.0.6\Microsoft.AspNetCore.Authorization.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

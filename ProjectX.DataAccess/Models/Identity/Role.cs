@@ -1,10 +1,8 @@
 ﻿using AspNetCore.Identity.Mongo.Model;
-using MongoDB.Bson;
 
-namespace ProjectX.DataAccess.Models
+namespace ProjectX.DataAccess.Models.Identity
 {
     public class Role : MongoRole
     {
-        
     }
 }

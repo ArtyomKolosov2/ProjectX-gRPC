@@ -1,31 +1,94 @@
 ﻿using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using ProjectX.BusinessLayer.Services;
+using ProjectX.Core.Constants;
+using ProjectX.DataAccess.Models.Identity;
 using ProjectX.Protobuf.Protos.Models;
 using ProjectX.Protobuf.Protos.Services;
 
 namespace ProjectX.BusinessLayer.GrpcServices
 {
+    [AllowAnonymous]
     public class AuthenticationService : UserAuthentication.UserAuthenticationBase
     {
-        public AuthenticationService()
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly JwtGenerator _generator;
+
+        public AuthenticationService(
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager,
+            JwtGenerator jwtGenerator)
         {
-            
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _generator = jwtGenerator;
+        }
+
+        public override async Task<LoginReply> Login(LoginRequest request, ServerCallContext context)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+
+            if (user is not null)
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+                if (result.Succeeded)
+                {
+                    var token = _generator.CreateJwtToken(user, await _userManager.GetRolesAsync(user));
+                    var response = new LoginReply
+                    {
+                        IsSuccess = true,
+                        ErrorMessage = string.Empty,
+                        Token = token
+                    };
+
+                    return response;
+                }
+            }
+
+            return new LoginReply
+            {
+                IsSuccess = false,
+                ErrorMessage = "Dibil",
+                Token = string.Empty
+            };
         }
         
-        public override Task<LoginReply> Login(LoginRequest request, ServerCallContext context)
-        {
-            return base.Login(request, context);
-        }
 
-        public override Task<RegisterReply> Register(RegisterRequest request, ServerCallContext context)
+        public override async Task<RegisterReply> Register(RegisterRequest request, ServerCallContext context)
         {
-            return base.Register(request, context);
-        }
+            var newUser = new User
+            {
+                UserName = request.Login,
+                Email = request.Email,
+            };
 
-        public override Task<Empty> Logout(Empty request, ServerCallContext context)
-        {
-            return base.Logout(request, context);
+            var identityResult = await _userManager.CreateAsync(newUser, request.Password);
+            
+            if (identityResult.Succeeded)
+            {
+                await _signInManager.CheckPasswordSignInAsync(newUser, request.Password, false);
+                await _userManager.AddToRoleAsync(newUser, IdentityRoleConstants.User);
+
+                var token = _generator.CreateJwtToken(newUser, await _userManager.GetRolesAsync(newUser));
+                var response = new RegisterReply
+                {
+                    IsSuccess = true,
+                    ErrorMessage = string.Empty,
+                    Token = token
+                };
+
+                return response;
+            }
+
+            return new RegisterReply
+            {
+                IsSuccess = false,
+                ErrorMessage = "Idiot"
+            };
         }
     }
 }

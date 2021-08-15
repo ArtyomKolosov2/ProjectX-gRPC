@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using ProjectX.DataAccess.Models;
 using ProjectX.DataAccess.Repositories.Base;
@@ -8,6 +9,7 @@ using HelloReply = ProjectX.Protobuf.Protos.HelloReply;
 
 namespace ProjectX.BusinessLayer.GrpcServices
 {
+    [Authorize]
     public class GreeterService : Greeter.GreeterBase
     {
         private readonly ILogger<GreeterService> _logger;

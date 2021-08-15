@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using ProjectX.DataAccess.Models.Base;
-using ProjectX.Protobuf.Protos;
 
 namespace ProjectX.DataAccess.Models
 {

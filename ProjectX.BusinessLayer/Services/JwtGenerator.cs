@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using ProjectX.DataAccess.Models.Identity;
 
 namespace ProjectX.BusinessLayer.Services
 {
@@ -18,12 +19,12 @@ namespace ProjectX.BusinessLayer.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtTokenKey"]));
         }
 
-        public string CreateJwtToken(string userName, List<string> userRoles)
+        public string CreateJwtToken(User user, IList<string> userRoles)
         {
 
             var claims = new List<Claim>
             {
-                new(ClaimsIdentity.DefaultNameClaimType, userName),
+                new(ClaimsIdentity.DefaultNameClaimType, user.UserName),
             };
 
             claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
