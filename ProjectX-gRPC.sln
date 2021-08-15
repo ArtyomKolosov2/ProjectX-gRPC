@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.BusinessLayer", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.ConsoleClient", "ProjectX.ConsoleClient\ProjectX.ConsoleClient.csproj", "{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Core", "ProjectX.Core\ProjectX.Core.csproj", "{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

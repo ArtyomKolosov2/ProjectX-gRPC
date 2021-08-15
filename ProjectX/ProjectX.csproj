@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Calzolari.Grpc.AspNetCore.Validation" Version="5.2.0" />
       <PackageReference Include="Google.Protobuf" Version="3.17.3" />
       <PackageReference Include="Grpc.AspNetCore" Version="2.38.0" />
       <PackageReference Include="Grpc.Core" Version="2.38.1" />
@@ -17,10 +18,13 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ProjectX.BusinessLayer\ProjectX.BusinessLayer.csproj" />
+      <ProjectReference Include="..\ProjectX.Core\ProjectX.Core.csproj" />
+      <ProjectReference Include="..\ProjectX.DataAccess\ProjectX.DataAccess.csproj" />
       <ProjectReference Include="..\ProjectX.Protobuf\ProjectX.Protobuf.csproj" />
     </ItemGroup>
 
