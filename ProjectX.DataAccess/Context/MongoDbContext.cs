@@ -8,11 +8,14 @@ namespace ProjectX.DataAccess.Context
     {
         public IMongoClient Client { get; set; }
         public IMongoDatabase Database { get; set; }
+        
+        public IDatabaseSettings Settings { get; set; }
 
         public MongoDbContext(IDatabaseSettings settings)
         {
             Client = new MongoClient(settings.ConnectionString);
             Database = Client.GetDatabase(settings.DatabaseName);
+            Settings = settings;
         }
         
         public MongoDbContext(IMongoClient mongoClient, IMongoDatabase mongoDatabase)

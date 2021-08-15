@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -29,6 +30,8 @@ namespace ProjectX.BusinessLayer.GrpcServices
 
         public override async Task<LoginReply> Login(LoginRequest request, ServerCallContext context)
         {
+            var errorMessages = Enumerable.Empty<string>();
+                
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is not null)
@@ -41,7 +44,6 @@ namespace ProjectX.BusinessLayer.GrpcServices
                     var response = new LoginReply
                     {
                         IsSuccess = true,
-                        ErrorMessage = string.Empty,
                         Token = token
                     };
 
@@ -52,7 +54,7 @@ namespace ProjectX.BusinessLayer.GrpcServices
             return new LoginReply
             {
                 IsSuccess = false,
-                ErrorMessage = "Dibil",
+                ErrorMessages = {"Invalid credentials!"},
                 Token = string.Empty
             };
         }
@@ -77,18 +79,20 @@ namespace ProjectX.BusinessLayer.GrpcServices
                 var response = new RegisterReply
                 {
                     IsSuccess = true,
-                    ErrorMessage = string.Empty,
                     Token = token
                 };
 
                 return response;
             }
-
-            return new RegisterReply
+            
+            var reply = new RegisterReply
             {
                 IsSuccess = false,
-                ErrorMessage = "Idiot"
+                ErrorMessages = { identityResult.Errors.Select(x => x.Description) },
+                Token = string.Empty
             };
+
+            return reply;
         }
     }
 }

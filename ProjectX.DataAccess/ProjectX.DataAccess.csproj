@@ -15,8 +15,4 @@
       <ProjectReference Include="..\ProjectX.Protobuf\ProjectX.Protobuf.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Models\DI" />
-    </ItemGroup>
-
 </Project>

@@ -23,12 +23,10 @@ namespace ProjectX.BusinessLayer.Services
             var handler = new JwtSecurityTokenHandler();
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
+                ValidateIssuer = false,
+                ValidateAudience = false,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = "your string",
-                ValidAudience = "your string",
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtTokenKey"]))
             };
 

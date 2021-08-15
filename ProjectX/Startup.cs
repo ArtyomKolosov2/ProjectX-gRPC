@@ -1,6 +1,3 @@
-using System;
-using System.Text;
-using AspNetCore.Identity.Mongo;
 using Calzolari.Grpc.AspNetCore.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -9,14 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson;
 using ProjectX.BusinessLayer.GrpcServices;
+using ProjectX.BusinessLayer.Services;
 using ProjectX.BusinessLayer.Services.DI;
 using ProjectX.DataAccess.Context.DI;
 using ProjectX.DataAccess.Models;
 using ProjectX.DataAccess.Models.Base;
-using ProjectX.DataAccess.Models.Identity;
+using ProjectX.DataAccess.Models.DI;
 using ProjectX.DataAccess.Repositories.DI;
 
 namespace ProjectX
@@ -47,26 +43,7 @@ namespace ProjectX
 
             services.AddGrpcValidation();
 
-            services.AddIdentityMongoDbProvider<User, Role, ObjectId>(identityOptions =>
-            {
-                identityOptions.Password.RequiredLength = 6;
-                identityOptions.Password.RequireLowercase = false;
-                identityOptions.Password.RequireUppercase = false;
-                identityOptions.Password.RequireNonAlphanumeric = false;
-                identityOptions.Password.RequireDigit = true;
-                
-                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
-                identityOptions.Lockout.AllowedForNewUsers = true;
-                
-                identityOptions.User.AllowedUserNameCharacters =
-                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                identityOptions.User.RequireUniqueEmail = true;
-            }, mongoIdentityOptions =>
-            {
-                mongoIdentityOptions.ConnectionString =
-                    $"{databaseSettings.ConnectionString}/{databaseSettings.DatabaseName}";
-            });
+            services.AddMongoDbIdentity(databaseSettings);
 
             services.AddBusinessServices();
             services.AddAuthentication(x =>
@@ -78,40 +55,17 @@ namespace ProjectX
                 {
                     x.RequireHttpsMetadata = false;
                     x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtTokenKey"])),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
+                    var validator = new JwtTokenValidatorService(Configuration);
+                    x.SecurityTokenValidators.Add(validator);
                 });
-            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(o =>
-                {
-                    o.SaveToken = true;
-                });*/
-            
+
             services.AddAuthorization();
             services.AddRepositories();
-
-
-            /*services.AddTransient<AuthHeadersInterceptor>();
-            services.AddHttpContextAccessor();
-
-            var httpClientBuilder = services.AddGrpcClient<GreeterService>(o =>
-            {
-                o.Address = new Uri("https://localhost:5001");
-            });
-            
-            httpClientBuilder.AddInterceptor<AuthHeadersInterceptor>();              
-            httpClientBuilder.ConfigureChannel(o => o.Credentials = ChannelCredentials.Insecure);*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
