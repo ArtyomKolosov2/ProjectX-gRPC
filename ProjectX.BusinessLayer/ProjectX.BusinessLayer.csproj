@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="AutomapperConfiguration" />
       <Folder Include="Services\Base" />
       <Folder Include="Validators" />
     </ItemGroup>
@@ -15,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="10.1.1" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.0" />
     </ItemGroup>
