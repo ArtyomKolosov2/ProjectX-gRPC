@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ProjectX.Protobuf.Protos.Models";
+
+message Chunk {
+  bytes Content = 1;
+}

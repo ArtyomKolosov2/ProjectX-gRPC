@@ -22,7 +22,6 @@ namespace ProjectX.DataAccess.Repositories.Base
         {
             var filter = Builders<TEntity>.Filter.Empty;
             var queryResult = await _mongoCollection.FindAsync(filter);
-            
             return queryResult.ToEnumerable();
         }
 

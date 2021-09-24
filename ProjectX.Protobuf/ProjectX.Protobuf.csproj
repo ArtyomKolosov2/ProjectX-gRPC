@@ -24,6 +24,9 @@
           <Generator>MSBuild:Compile</Generator>
         </Protobuf>
         <Protobuf Include="Protos\Services\Authentication.proto" />
+        <Protobuf Include="Protos\Models\Chunk.proto" />
+        <Protobuf Include="Protos\Models\Upload.proto" />
+        <Protobuf Include="Protos\Services\FileUploader.proto" />
     </ItemGroup>
 
     <ItemGroup>

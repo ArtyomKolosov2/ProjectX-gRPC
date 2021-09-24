@@ -30,14 +30,12 @@ namespace ProjectX.BusinessLayer.GrpcServices
 
         public override async Task<LoginReply> Login(LoginRequest request, ServerCallContext context)
         {
-            var errorMessages = Enumerable.Empty<string>();
-                
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is not null)
             {
                 var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
+                
                 if (result.Succeeded)
                 {
                     var token = _generator.CreateJwtToken(user, await _userManager.GetRolesAsync(user));

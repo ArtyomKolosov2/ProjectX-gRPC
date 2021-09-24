@@ -80,6 +80,7 @@ namespace ProjectX
             {
                 endpoints.MapGrpcService<AuthenticationService>();
                 endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<FileUploaderService>();
             });
         }
     }

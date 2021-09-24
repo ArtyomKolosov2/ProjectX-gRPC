@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ProjectX.Protobuf.Protos.Services";
+
+import "Protos/Models/Upload.proto";
+
+service FileUploader {
+  rpc Upload(stream UploadFileRequest) returns (UploadFileResponse);
+}

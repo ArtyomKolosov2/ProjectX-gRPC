@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ProjectX.BusinessLayer.Services.Files;
 
 namespace ProjectX.BusinessLayer.Services.DI
 {
@@ -7,6 +8,7 @@ namespace ProjectX.BusinessLayer.Services.DI
         public static void AddBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<JwtGenerator>();
+            services.AddScoped<GridFsFileService>();
         }
     }
 }
