@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using System.Threading.Tasks;
+using MongoDB.Driver;
 using ProjectX.DataAccess.Models.Base;
 
 namespace ProjectX.DataAccess.Context.Base
@@ -8,5 +9,7 @@ namespace ProjectX.DataAccess.Context.Base
         IMongoClient Client { get; set; }
         IMongoDatabase Database { get; set; }
         IDatabaseSettings Settings { get; set; }
+
+        Task DeleteDatabase();
     }
 }

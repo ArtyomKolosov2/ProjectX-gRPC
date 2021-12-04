@@ -57,7 +57,6 @@ namespace ProjectX.BusinessLayer.GrpcServices
             };
         }
         
-
         public override async Task<RegisterReply> Register(RegisterRequest request, ServerCallContext context)
         {
             var newUser = new User

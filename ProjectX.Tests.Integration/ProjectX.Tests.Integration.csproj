@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TestContext" />
+      <ProjectReference Include="..\ProjectX.Tests.Core\ProjectX.Tests.Core.csproj" />
     </ItemGroup>
 
 </Project>

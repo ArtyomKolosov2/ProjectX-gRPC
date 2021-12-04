@@ -5,10 +5,12 @@ namespace ProjectX.BusinessLayer.Services.DI
 {
     public static class ConfigureBusinessServices
     {
-        public static void AddBusinessServices(this IServiceCollection services)
+        public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<JwtGenerator>();
             services.AddScoped<GridFsFileService>();
+            
+            return services;
         }
     }
 }

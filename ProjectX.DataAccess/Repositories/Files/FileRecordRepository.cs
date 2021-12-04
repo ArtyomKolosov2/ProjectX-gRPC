@@ -6,7 +6,7 @@ namespace ProjectX.DataAccess.Repositories.Files
 {
     public class FileRecordRepository : Repository<FileRecord>
     {
-        private const string CollectionName = "FileRecords";
+        private const string CollectionName = nameof(FileRecord);
         
         public FileRecordRepository(IMongoContext mongoContext) : base(mongoContext, CollectionName)
         {

@@ -6,7 +6,7 @@ namespace ProjectX.DataAccess.Repositories
 {
     public class HelloRequestRepository : Repository<HelloRequestEntity>
     {
-        private const string CollectionName = "HelloRequests";
+        private const string CollectionName = nameof(HelloRequestEntity);
         
         public HelloRequestRepository(IMongoContext mongoContext) : base(mongoContext, CollectionName)
         {
