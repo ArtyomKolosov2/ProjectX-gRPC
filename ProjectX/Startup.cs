@@ -25,8 +25,8 @@ namespace ProjectX
         {
             Configuration = configuration;
         }
-        
-        public void ConfigureServices(IServiceCollection services)
+
+        public virtual void ConfigureDb(IServiceCollection services)
         {
             var databaseSettings = new DatabaseSettings();
             Configuration.GetSection(nameof(DatabaseSettings)).Bind(databaseSettings);
@@ -34,6 +34,12 @@ namespace ProjectX
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             
             services.AddMongoDbContext(databaseSettings);
+            services.AddMongoDbIdentity(databaseSettings);
+        }
+        
+        public virtual void ConfigureServices(IServiceCollection services)
+        {
+            ConfigureDb(services);
             
             services.AddGrpc(options =>
             {
@@ -42,9 +48,6 @@ namespace ProjectX
             });
 
             services.AddGrpcValidation();
-
-            services.AddMongoDbIdentity(databaseSettings);
-
             services.AddBusinessServices();
             services.AddAuthentication(x =>
                 {

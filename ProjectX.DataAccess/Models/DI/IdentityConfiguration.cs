@@ -10,7 +10,7 @@ namespace ProjectX.DataAccess.Models.DI
     public static class IdentityConfiguration
     {
         private const string AllowedNameChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            
+        
         public static void AddMongoDbIdentity(this IServiceCollection services, IDatabaseSettings databaseSettings)
         {
             services.AddIdentityMongoDbProvider<User, Role, ObjectId>(identityOptions =>
