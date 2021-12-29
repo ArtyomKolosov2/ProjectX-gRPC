@@ -6,10 +6,12 @@ namespace ProjectX.DataAccess.Context.DI
 {
     public static class MongoDbContextConfiguration
     {
-        public static void AddMongoDbContext(this IServiceCollection services, IDatabaseSettings settings)
+        public static IServiceCollection AddMongoDbContext(this IServiceCollection services, IDatabaseSettings settings)
         {
             services.AddSingleton<IMongoContext, MongoDbContext>(
                 _ => new MongoDbContext(settings));
+
+            return services;
         }
     }
 }

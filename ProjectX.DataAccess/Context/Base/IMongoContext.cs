@@ -9,7 +9,7 @@ namespace ProjectX.DataAccess.Context.Base
         IMongoClient Client { get; set; }
         IMongoDatabase Database { get; set; }
         IDatabaseSettings Settings { get; set; }
-
         Task DeleteDatabase();
+        public IMongoCollection<T> GetCollection<T>();
     }
 }

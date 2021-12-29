@@ -25,6 +25,9 @@ namespace ProjectX.DataAccess.Context
             Database = mongoDatabase; 
         }
         
+        public IMongoCollection<T> GetCollection<T>() => Database.GetCollection<T>(typeof(T).Name);
+        
+        // ToDo: Find the right way to remove DB in Tests
         public Task DeleteDatabase()
         {
             return Client.DropDatabaseAsync(Settings.DatabaseName);

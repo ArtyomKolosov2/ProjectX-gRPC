@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using ProjectX.DataAccess.Context.Base;
 using ProjectX.DataAccess.Models.Base;
 
@@ -10,18 +11,18 @@ namespace ProjectX.DataAccess.Repositories.Base
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity<ObjectId>
     {
         protected IMongoContext MongoContext { get; set; }
-        private readonly IMongoCollection<TEntity> _mongoCollection;
+        protected IMongoCollection<TEntity> MongoCollection { get; set; }
 
         protected Repository(IMongoContext mongoContext, string collectionName)
         {
             MongoContext = mongoContext;
-            _mongoCollection = MongoContext.Database.GetCollection<TEntity>(collectionName);
+            MongoCollection = MongoContext.Database.GetCollection<TEntity>(collectionName);
         }
         
         public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
             var filter = Builders<TEntity>.Filter.Empty;
-            var queryResult = await _mongoCollection.FindAsync(filter);
+            var queryResult = await MongoCollection.FindAsync(filter);
             return queryResult.ToEnumerable();
         }
 
@@ -29,16 +30,16 @@ namespace ProjectX.DataAccess.Repositories.Base
         {
             var filter = Builders<TEntity>.Filter.Eq(field => field.Id, id);
 
-            var queryResult = await _mongoCollection.FindAsync(filter);
+            var queryResult = await MongoCollection.FindAsync(filter);
             return await queryResult.FirstOrDefaultAsync();
         }
 
-        public virtual Task Insert(TEntity entity) => _mongoCollection.InsertOneAsync(entity);
+        public virtual Task Insert(TEntity entity) => MongoCollection.InsertOneAsync(entity);
 
         public virtual async Task<TEntity> Update(TEntity entity)
         {
             var filter = Builders<TEntity>.Filter.Eq(field => entity.Id, entity.Id);
-            await _mongoCollection.ReplaceOneAsync(filter, entity);
+            await MongoCollection.ReplaceOneAsync(filter, entity);
 
             return await FindById(entity.Id);
         }
@@ -46,7 +47,7 @@ namespace ProjectX.DataAccess.Repositories.Base
         public virtual async Task<TEntity> Update(ObjectId id, TEntity entity)
         {
             var filter = Builders<TEntity>.Filter.Eq(field => field.Id, id);
-            await _mongoCollection.ReplaceOneAsync(filter, entity);
+            await MongoCollection.ReplaceOneAsync(filter, entity);
 
             return await FindById(entity.Id);
         }
@@ -55,14 +56,16 @@ namespace ProjectX.DataAccess.Repositories.Base
         {
             var filter = Builders<TEntity>.Filter.Eq(field => field.Id, entity.Id);
             
-            return _mongoCollection.DeleteOneAsync(filter);
+            return MongoCollection.DeleteOneAsync(filter);
         }
         
         public virtual Task Delete(ObjectId id)
         {
             var filter = Builders<TEntity>.Filter.Eq(field => field.Id, id);
             
-            return _mongoCollection.DeleteOneAsync(filter);
+            return MongoCollection.DeleteOneAsync(filter);
         }
+        
+        public IMongoQueryable AsQueryable() => MongoCollection.AsQueryable();
     }
 }

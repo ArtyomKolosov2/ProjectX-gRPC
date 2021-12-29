@@ -1,30 +1,43 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using ProjectX.DataAccess.Context.Base;
 using ProjectX.DataAccess.Models.Base;
 using ProjectX.DataAccess.Repositories.Base;
-using ProjectX.Tests.Integration.TestContext;
+using ProjectX.Tests.Integration.Fixtures;
+using Xunit;
 
 namespace ProjectX.Tests.Integration.Base
 {
-    public class BaseRepositoryTests // : IAsyncLifetime
+    public class BaseRepositoryTests: IAsyncLifetime
     {
-        protected RepositoryTestContext TestContext { get; }
+        private const string RolesCollectionName = "Roles";
+        protected RepositoryTestFixture TestFixture { get; }
 
-        public BaseRepositoryTests(RepositoryTestContext testContext)
+        public BaseRepositoryTests(RepositoryTestFixture testFixture)
         {
-            TestContext = testContext;
+            TestFixture = testFixture;
         }
         
-        public Task InitializeAsync()
-        {
-            throw new System.NotImplementedException();
-        }
+        public Task InitializeAsync() => Task.CompletedTask;
 
-        public Task DisposeAsync()
+        public async Task DisposeAsync()
         {
-            throw new System.NotImplementedException();
+            var collectionNames = (await TestFixture.MongoContext.Database.ListCollectionNamesAsync()).ToEnumerable()
+                .Except(new[] { RolesCollectionName });
+
+            Task DeleteCollectionAction(string name)
+            {
+                var collection = TestFixture.MongoContext.Database.GetCollection<BsonDocument>(name);
+                return collection.DeleteManyAsync(Builders<BsonDocument>.Filter.Empty);
+            }
+
+            foreach (var collectionName in collectionNames)
+            {
+                await DeleteCollectionAction(collectionName);
+            }
         }
         
         protected class TestEntity : Entity<ObjectId>

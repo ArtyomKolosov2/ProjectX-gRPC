@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using ProjectX.DataAccess.Context.Base;
 using ProjectX.Tests.Core.ApplicationFactory;
 
-namespace ProjectX.Tests.Integration.TestContext
+namespace ProjectX.Tests.Integration.Fixtures
 {
-    public class IntegrationTestContext: IDisposable, IAsyncDisposable
+    public class IntegrationTestFixture: IDisposable, IAsyncDisposable
     {
         private readonly TestApplicationFactory<Startup> _webApplicationFactory;
         private readonly HttpClient _httpClient;
@@ -17,7 +17,7 @@ namespace ProjectX.Tests.Integration.TestContext
         public GrpcChannel TestGrpcChannel { get; }
         public IMongoContext MongoContext { get; }
 
-        public IntegrationTestContext()
+        public IntegrationTestFixture()
         {
             _webApplicationFactory = new TestApplicationFactory<Startup>();
             _httpClient = _webApplicationFactory.CreateDefaultClient();

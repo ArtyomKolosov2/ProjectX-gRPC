@@ -3,8 +3,8 @@ using FluentAssertions;
 using ProjectX.Protobuf.Protos.Models;
 using ProjectX.Protobuf.Protos.Services;
 using ProjectX.Tests.Integration.Base;
-using ProjectX.Tests.Integration.TestContext;
-using ProjectX.Tests.Integration.TestContext.Collections;
+using ProjectX.Tests.Integration.Fixtures;
+using ProjectX.Tests.Integration.TestContexts.Collections;
 using Xunit;
 
 namespace ProjectX.Tests.Integration.GrpcServices
@@ -14,9 +14,9 @@ namespace ProjectX.Tests.Integration.GrpcServices
     {
         private readonly UserAuthentication.UserAuthenticationClient _client;
 
-        public AuthenticationServiceTests(IntegrationTestContext testContext) : base(testContext)
+        public AuthenticationServiceTests(IntegrationTestFixture testFixture) : base(testFixture)
         {
-            _client = new UserAuthentication.UserAuthenticationClient(TestContext.TestGrpcChannel);
+            _client = new UserAuthentication.UserAuthenticationClient(TestFixture.TestGrpcChannel);
         }
         
         [Fact]

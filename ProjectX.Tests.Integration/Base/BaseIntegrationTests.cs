@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using ProjectX.Protobuf.Protos.Models;
 using ProjectX.Protobuf.Protos.Services;
-using ProjectX.Tests.Integration.TestContext;
+using ProjectX.Tests.Integration.Fixtures;
 using Xunit;
 
 namespace ProjectX.Tests.Integration.Base 
@@ -17,11 +16,11 @@ namespace ProjectX.Tests.Integration.Base
         protected const string TestPassword = "123abcABC!";
         protected const string TestLogin = "Test";
         private const string RolesCollectionName = "Roles";
-        protected IntegrationTestContext TestContext { get; }
+        protected IntegrationTestFixture TestFixture { get; }
 
-        protected BaseIntegrationTests(IntegrationTestContext testContext)
+        protected BaseIntegrationTests(IntegrationTestFixture testFixture)
         {
-            TestContext = testContext;
+            TestFixture = testFixture;
         }
 
         protected Task<RegisterReply> CreateDefaultTestUser() => CreateNewTestUser(TestEmail, TestPassword, TestLogin);
@@ -40,7 +39,7 @@ namespace ProjectX.Tests.Integration.Base
         protected async Task<RegisterReply> CreateNewTestUser(string email, string password, string login)
         {
             // Arrange
-            var registerService = new UserAuthentication.UserAuthenticationClient(TestContext.TestGrpcChannel);
+            var registerService = new UserAuthentication.UserAuthenticationClient(TestFixture.TestGrpcChannel);
             
             // Act
             var reply = await registerService.RegisterAsync(new RegisterRequest
@@ -59,12 +58,12 @@ namespace ProjectX.Tests.Integration.Base
 
         public async Task DisposeAsync()
         {
-            var collectionNames = (await TestContext.MongoContext.Database.ListCollectionNamesAsync()).ToEnumerable()
+            var collectionNames = (await TestFixture.MongoContext.Database.ListCollectionNamesAsync()).ToEnumerable()
                 .Except(new[] { RolesCollectionName });
 
             Task DeleteCollectionAction(string name)
             {
-                var collection = TestContext.MongoContext.Database.GetCollection<BsonDocument>(name);
+                var collection = TestFixture.MongoContext.Database.GetCollection<BsonDocument>(name);
                 return collection.DeleteManyAsync(Builders<BsonDocument>.Filter.Empty);
             }
 

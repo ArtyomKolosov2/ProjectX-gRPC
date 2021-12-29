@@ -73,7 +73,7 @@ namespace ProjectX
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseRouting();
  
             app.UseAuthentication();

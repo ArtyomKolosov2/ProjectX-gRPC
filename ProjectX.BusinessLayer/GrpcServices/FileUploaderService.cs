@@ -37,14 +37,13 @@ namespace ProjectX.BusinessLayer.GrpcServices
                         break;
                 }
             }
-            
 
             var uploadCodeResult = await _gridFsFileService.UploadFile(metadata, bytes.ToArray());
             
             return new UploadFileResponse
             {
                 Code = uploadCodeResult,
-                Message =  uploadCodeResult == UploadStatusCode.Ok ? "Success" : "Failed"
+                Message =  uploadCodeResult.ToString()
             };
         }
     }

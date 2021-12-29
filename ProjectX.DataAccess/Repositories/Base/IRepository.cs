@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 using ProjectX.DataAccess.Models.Base;
 
 namespace ProjectX.DataAccess.Repositories.Base
@@ -14,5 +15,6 @@ namespace ProjectX.DataAccess.Repositories.Base
         Task<TEntity> Update(ObjectId id, TEntity entity);
         Task Delete(TEntity entity);
         Task Delete(ObjectId id);
+        IMongoQueryable AsQueryable();
     }
 }

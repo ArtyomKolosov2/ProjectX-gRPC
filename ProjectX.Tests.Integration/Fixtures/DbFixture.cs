@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using ProjectX.DataAccess.Context;
 using ProjectX.DataAccess.Context.Base;
 using ProjectX.DataAccess.Models;
-using Xunit;
 
 namespace ProjectX.Tests.Integration.Fixtures
 {
-    public class DbFixture : IDisposable, IAsyncDisposable
+    public class DbFixture
     {
         public IMongoContext MongoContext { get; }
         
@@ -21,10 +19,5 @@ namespace ProjectX.Tests.Integration.Fixtures
 
             MongoContext = new MongoDbContext(databaseSettings);
         }
-        
-        public async void Dispose() => await DisposeAsync();
-
-        public async ValueTask DisposeAsync() => await MongoContext.DeleteDatabase();
-
     }
 }
