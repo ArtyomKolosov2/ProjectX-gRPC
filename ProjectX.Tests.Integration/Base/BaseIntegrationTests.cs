@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using ProjectX.Protobuf.Protos.Models;
 using ProjectX.Protobuf.Protos.Services;
+using ProjectX.Tests.Core.Extensions;
 using ProjectX.Tests.Integration.Fixtures;
 using Xunit;
 
@@ -15,7 +13,6 @@ namespace ProjectX.Tests.Integration.Base
         protected const string TestEmail = "test1@mail.com";
         protected const string TestPassword = "123abcABC!";
         protected const string TestLogin = "Test";
-        private const string RolesCollectionName = "Roles";
         protected IntegrationTestFixture TestFixture { get; }
 
         protected BaseIntegrationTests(IntegrationTestFixture testFixture)
@@ -35,8 +32,8 @@ namespace ProjectX.Tests.Integration.Base
 
             return reply;
         }
-        
-        protected async Task<RegisterReply> CreateNewTestUser(string email, string password, string login)
+
+        private async Task<RegisterReply> CreateNewTestUser(string email, string password, string login)
         {
             // Arrange
             var registerService = new UserAuthentication.UserAuthenticationClient(TestFixture.TestGrpcChannel);
@@ -56,22 +53,7 @@ namespace ProjectX.Tests.Integration.Base
 
         public Task InitializeAsync() => Task.CompletedTask;
 
-        public async Task DisposeAsync()
-        {
-            var collectionNames = (await TestFixture.MongoContext.Database.ListCollectionNamesAsync()).ToEnumerable()
-                .Except(new[] { RolesCollectionName });
-
-            Task DeleteCollectionAction(string name)
-            {
-                var collection = TestFixture.MongoContext.Database.GetCollection<BsonDocument>(name);
-                return collection.DeleteManyAsync(Builders<BsonDocument>.Filter.Empty);
-            }
-
-            foreach (var collectionName in collectionNames)
-            {
-                await DeleteCollectionAction(collectionName);
-            }
-        }
+        public Task DisposeAsync() => TestFixture.MongoContext.ClearCollectionsAfterTestRun();
 
         #endregion
         

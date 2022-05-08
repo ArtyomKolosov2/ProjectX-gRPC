@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using ProjectX.Core.Constants;
+using ProjectX.DataAccess.Models.Identity;
 
-namespace ProjectX.DataAccess.Models.Identity
+namespace ProjectX.DataAccess.Helpers.Identity
 {
     public static class IdentityRolesInitializer
     {

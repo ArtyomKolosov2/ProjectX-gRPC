@@ -19,15 +19,15 @@ namespace ProjectX.BusinessLayer.Services
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtTokenKey"]));
         }
 
-        public string CreateJwtToken(User user, IList<string> userRoles)
+        public string CreateJwtToken(User user, IEnumerable<string> userRoles)
         {
-
             var claims = new List<Claim>
             {
-                new(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new(ClaimTypes.Email, user.Email),
             };
 
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimsIdentity.DefaultRoleClaimType, role)));
+            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -39,7 +39,6 @@ namespace ProjectX.BusinessLayer.Services
             };
             
             var tokenHandler = new JwtSecurityTokenHandler();
-
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);

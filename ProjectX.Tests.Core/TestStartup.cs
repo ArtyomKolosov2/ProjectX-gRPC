@@ -1,16 +1,10 @@
 ﻿using System;
-using Calzolari.Grpc.AspNetCore.Validation;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using ProjectX.BusinessLayer.Services;
-using ProjectX.BusinessLayer.Services.DI;
-using ProjectX.DataAccess.Context.DI;
+using ProjectX.DataAccess.DependencyInjection;
 using ProjectX.DataAccess.Models;
 using ProjectX.DataAccess.Models.Base;
-using ProjectX.DataAccess.Models.DI;
-using ProjectX.DataAccess.Repositories.DI;
 
 namespace ProjectX.Tests.Core
 {

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ProjectX.DataAccess.Context;
 using ProjectX.DataAccess.Context.Base;
 using ProjectX.DataAccess.Models.Base;
 
-namespace ProjectX.DataAccess.Context.DI
+namespace ProjectX.DataAccess.DependencyInjection
 {
     public static class MongoDbContextConfiguration
     {

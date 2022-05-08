@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
@@ -10,11 +11,12 @@ namespace ProjectX.DataAccess.Repositories.Base
     {
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> FindById(ObjectId id);
-        Task Insert(TEntity entity);
+        Task<TEntity> Insert(TEntity entity);
+        Task<TDerived> Insert<TDerived>(TEntity entity) where TDerived : TEntity;
         Task<TEntity> Update(TEntity entity);
         Task<TEntity> Update(ObjectId id, TEntity entity);
         Task Delete(TEntity entity);
         Task Delete(ObjectId id);
-        IMongoQueryable AsQueryable();
+        IQueryable<TEntity> AsQueryable();
     }
 }

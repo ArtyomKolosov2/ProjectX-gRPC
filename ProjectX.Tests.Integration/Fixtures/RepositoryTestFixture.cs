@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ProjectX.DataAccess.Context.Base;
+using ProjectX.Tests.Core.Extensions;
 
 namespace ProjectX.Tests.Integration.Fixtures
 {
@@ -17,10 +18,7 @@ namespace ProjectX.Tests.Integration.Fixtures
         
         public async ValueTask DisposeAsync()
         {
-            if (MongoContext is not null)
-            {
-                await MongoContext.DeleteDatabase();
-            }
+            await MongoContext.DeleteDatabase();
         }
 
         public async void Dispose() => await DisposeAsync();

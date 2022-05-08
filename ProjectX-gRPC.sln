@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.BusinessLayer", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.ConsoleClient", "ProjectX.ConsoleClient\ProjectX.ConsoleClient.csproj", "{7216560D-36C5-4DCD-91DB-3AB5EA0D625D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Core", "ProjectX.Core\ProjectX.Core.csproj", "{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectX.Infrastracture", "ProjectX.Infrastracture\ProjectX.Infrastracture.csproj", "{B4B22AF1-576C-4F0E-8AAF-0BE11146F91E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E21F914F-515D-4ACC-8ABA-0EE3547D19B2}"
 EndProject

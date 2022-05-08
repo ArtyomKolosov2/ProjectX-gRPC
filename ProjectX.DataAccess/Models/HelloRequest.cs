@@ -3,8 +3,10 @@ using ProjectX.DataAccess.Models.Base;
 
 namespace ProjectX.DataAccess.Models
 {
-    public class HelloRequestEntity : Entity<ObjectId>
+    public class HelloRequestEntity : Entity<ObjectId>, IHasOwner<ObjectId>
     {
         public string Message { get; set; }
+        
+        public ObjectId OwnerId { get; set; }
     }
 }

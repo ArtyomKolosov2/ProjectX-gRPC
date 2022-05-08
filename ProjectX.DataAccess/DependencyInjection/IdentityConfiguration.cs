@@ -5,7 +5,7 @@ using MongoDB.Bson;
 using ProjectX.DataAccess.Models.Base;
 using ProjectX.DataAccess.Models.Identity;
 
-namespace ProjectX.DataAccess.Models.DI
+namespace ProjectX.DataAccess.DependencyInjection
 {
     public static class IdentityConfiguration
     {

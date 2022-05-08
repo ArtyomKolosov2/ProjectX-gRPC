@@ -11,8 +11,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ProjectX.Core\ProjectX.Core.csproj" />
+      <ProjectReference Include="..\ProjectX.Infrastracture\ProjectX.Infrastracture.csproj" />
       <ProjectReference Include="..\ProjectX.Protobuf\ProjectX.Protobuf.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Repositories\Files" />
     </ItemGroup>
 
 </Project>

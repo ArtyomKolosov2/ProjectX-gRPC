@@ -6,7 +6,5 @@ namespace ProjectX.DataAccess.Models.Base
     {
         [BsonId]
         public T Id { get; set; }
-        
-        public T OwnerId { get; set; }
     }
 }

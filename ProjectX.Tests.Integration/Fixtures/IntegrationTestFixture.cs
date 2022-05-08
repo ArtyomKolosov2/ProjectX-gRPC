@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using ProjectX.DataAccess.Context.Base;
 using ProjectX.Tests.Core.ApplicationFactory;
+using ProjectX.Tests.Core.Extensions;
 
 namespace ProjectX.Tests.Integration.Fixtures
 {
@@ -31,11 +32,7 @@ namespace ProjectX.Tests.Integration.Fixtures
 
         public async ValueTask DisposeAsync()
         {
-            if (MongoContext is not null)
-            {
-                await MongoContext.DeleteDatabase();
-            }
-            
+            await MongoContext.DeleteDatabase();
             _webApplicationFactory?.Dispose();
             _httpClient?.Dispose();
             TestGrpcChannel?.Dispose();

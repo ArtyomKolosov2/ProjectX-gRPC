@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ProjectX.DataAccess.Helpers.Identity;
 using ProjectX.DataAccess.Models.Identity;
 
 namespace ProjectX.Tests.Core.ApplicationFactory

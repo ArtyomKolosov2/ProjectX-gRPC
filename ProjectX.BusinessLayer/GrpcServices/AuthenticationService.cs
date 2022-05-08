@@ -17,15 +17,18 @@ namespace ProjectX.BusinessLayer.GrpcServices
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly JwtGenerator _generator;
+        private readonly BusinessUserService _businessUserService;
 
         public AuthenticationService(
             UserManager<User> userManager, 
             SignInManager<User> signInManager,
-            JwtGenerator jwtGenerator)
+            JwtGenerator jwtGenerator,
+            BusinessUserService businessUserService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _generator = jwtGenerator;
+            _businessUserService = businessUserService;
         }
 
         public override async Task<LoginReply> Login(LoginRequest request, ServerCallContext context)
@@ -78,6 +81,8 @@ namespace ProjectX.BusinessLayer.GrpcServices
                     IsSuccess = true,
                     Token = token
                 };
+                
+                _businessUserService.CreateBusinessUser(newUser);
 
                 return response;
             }

@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ProjectX.Core\ProjectX.Core.csproj" />
+      <ProjectReference Include="..\ProjectX.Infrastracture\ProjectX.Infrastracture.csproj" />
       <ProjectReference Include="..\ProjectX.DataAccess\ProjectX.DataAccess.csproj" />
       <ProjectReference Include="..\ProjectX.Protobuf\ProjectX.Protobuf.csproj" />
     </ItemGroup>

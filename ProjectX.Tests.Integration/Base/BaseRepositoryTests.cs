@@ -49,8 +49,7 @@ namespace ProjectX.Tests.Integration.Base
         
         protected class TestBaseRepository : Repository<TestEntity>
         {
-            private const string CollectionName = nameof(TestEntity);
-            public TestBaseRepository(IMongoContext mongoContext) : base(mongoContext, CollectionName)
+            public TestBaseRepository(IMongoContext mongoContext) : base(mongoContext)
             {
             }
         }
